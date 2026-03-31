@@ -221,6 +221,22 @@
 
   .cat-badges { display: flex; gap: 4px; flex-wrap: wrap; justify-content: center; }
   .empty-state { text-align: center; padding: 28px 0; color: var(--text-tertiary); font-size: 13px; }
+
+  /* ── 메뉴 직접 선택(핀) ── */
+  .menu-chip.pinned { border-color: #2AB87D; background: #EBF9F3; color: #1A8A5A; }
+  .menu-chip.pinned.friday-only { border-color: #2AB87D; border-style: dashed; }
+  body.party .menu-chip.pinned { border-color: #59FFB0; background: rgba(89,255,176,0.15); color: #59FFB0; }
+  body.party .menu-chip.pinned.friday-only { border-style: dashed; }
+
+  .menu-count { display: flex; align-items: center; gap: 8px; }
+  .pin-clear-btn {
+    font-size: 11px; font-weight: 600; font-family: 'Noto Sans KR', sans-serif;
+    background: none; border: 1px solid #2AB87D; border-radius: 20px;
+    color: #1A8A5A; padding: 1px 8px; cursor: pointer; line-height: 1.6;
+  }
+  body.party .pin-clear-btn { border-color: #59FFB0; color: #59FFB0; }
+  .pin-clear-btn:hover { background: #2AB87D; color: #fff; }
+  body.party .pin-clear-btn:hover { background: rgba(89,255,176,0.25); }
 </style>
 </head>
 <body>
@@ -244,7 +260,7 @@
     </div>
   </div>
 
-  <button class="pick-btn" id="pickBtn" onclick="pickMenu()">🎲 랜덤 뽑기</button>
+  <button class="pick-btn" id="pickBtn" onclick="pickMenu()"><span class="btn-text">🎲 랜덤 뽑기</span></button>
 
   <div class="section-label">카테고리</div>
   <div class="cat-scroll"><div class="cat-tabs" id="catTabs"></div></div>
@@ -333,6 +349,8 @@ let pickedIdx    = -1;
 let lastChipEl   = null;   // 직전 하이라이트 칩 참조 (DOM 탐색 최소화)
 let confettiRAF  = null;
 let confettiRunning = false;
+let pinnedIdxs   = new Set();  // 사용자가 직접 선택한 메뉴 인덱스
+let visibleCount = 0;          // 현재 카테고리 기준 표시 메뉴 수 (menuCount 재갱신용)
 
 /* ── 초기화 ────────────────────────────────────────────────────── */
 function injectCatStyles() {
@@ -381,7 +399,8 @@ function getVisibleMenus() {
 function renderGrid() {
   const grid    = document.getElementById('menuGrid');
   const visible = getVisibleMenus();
-  document.getElementById('menuCount').textContent = `${visible.length}개 메뉴`;
+  visibleCount  = visible.length;
+  updatePinBar();
   lastChipEl = null;
 
   if (visible.length === 0) {
@@ -396,8 +415,10 @@ function renderGrid() {
     const visibleCats = m.cats; // 모든 cats 도트 표시 (nocoupon 포함)
     chip.className = 'menu-chip'
       + (m.fridayOnly ? ' friday-only' : '')
-      + (pickedIdx === realIdx ? ' active' : '');
+      + (pickedIdx === realIdx ? ' active' : '')
+      + (pinnedIdxs.has(realIdx) ? ' pinned' : '');
     chip.id = 'chip-' + realIdx;
+    chip.onclick = () => togglePin(realIdx);
     chip.innerHTML = `
       <div class="chip-left">
         <span class="chip-cats">${visibleCats.map(c=>`<span class="chip-cat-dot cat-${c}"></span>`).join('')}</span>
@@ -411,6 +432,9 @@ function renderGrid() {
 
 /* ── 추첨 풀 ────────────────────────────────────────────────────── */
 function getDrawPool() {
+  // 직접 선택된 메뉴가 있으면 해당 메뉴만 사용 (카테고리 필터 무시)
+  if (pinnedIdxs.size > 0)
+    return menus.map((m,i)=>({m,i})).filter(({i}) => pinnedIdxs.has(i));
   if (activeCat === 'friday') return menus.map((m,i)=>({m,i})).filter(({m})=>m.fridayOnly);
   if (activeCat === 'all') return fridayMode
     ? menus.map((m,i)=>({m,i}))
@@ -488,6 +512,35 @@ function pickMenu() {
     }
   }
   animTimer = setTimeout(step, interval);
+}
+
+/* ── 메뉴 직접 선택(핀) ──────────────────────────────────────────── */
+function togglePin(idx) {
+  if (pinnedIdxs.has(idx)) pinnedIdxs.delete(idx);
+  else pinnedIdxs.add(idx);
+  updatePinBar();
+  const chip = document.getElementById('chip-' + idx);
+  if (chip) chip.classList.toggle('pinned', pinnedIdxs.has(idx));
+}
+
+function clearPins() {
+  pinnedIdxs.clear();
+  updatePinBar();
+  renderGrid();
+}
+
+function updatePinBar() {
+  document.getElementById('pickBtn').querySelector('.btn-text').textContent =
+    pinnedIdxs.size > 0 ? '🎯 선택 메뉴 뽑기' : '🎲 랜덤 뽑기';
+  const countEl = document.getElementById('menuCount');
+  if (!countEl) return;
+  const base = `${visibleCount}개 메뉴`;
+  if (pinnedIdxs.size > 0) {
+    countEl.innerHTML = `${base} · <span style="color:#1A8A5A;font-weight:600">${pinnedIdxs.size}개 선택</span>
+      <button class="pin-clear-btn" onclick="clearPins()">초기화</button>`;
+  } else {
+    countEl.textContent = base;
+  }
 }
 
 /* ── 금요일 모드 ────────────────────────────────────────────────── */
