@@ -1,0 +1,4 @@
+[
+  "2026-04-07: 데이터 파일 분리 (category.json, menu.*.json, ui-config.json)",
+  "2026-04-07: 사람별 메뉴 프로필 선택 (?person=) 지원"
+]

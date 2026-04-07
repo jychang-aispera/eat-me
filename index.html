@@ -237,6 +237,24 @@
   body.party .pin-clear-btn { border-color: #59FFB0; color: #59FFB0; }
   .pin-clear-btn:hover { background: #2AB87D; color: #fff; }
   body.party .pin-clear-btn:hover { background: rgba(89,255,176,0.25); }
+
+  /* ── 배포 링크 / 릴리즈 노트 ── */
+  .info-panel {
+    margin-top: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .info-title { font-size: 11px; font-weight: 700; color: var(--text-tertiary); margin-bottom: 6px; }
+  .info-links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+  .info-links a { color: var(--accent); text-decoration: none; }
+  .info-links a:hover { text-decoration: underline; }
+  .release-notes summary { cursor: pointer; color: var(--text-primary); font-weight: 600; }
+  .release-notes ul { margin: 8px 0 0 16px; }
+  .release-notes li { margin-bottom: 4px; }
 </style>
 </head>
 <body>
@@ -267,6 +285,18 @@
 
   <div class="menu-count" id="menuCount"></div>
   <div class="menu-grid" id="menuGrid"></div>
+
+  <div class="info-panel">
+    <div class="info-title">LIVE</div>
+    <div class="info-links">
+      <a href="./" id="liveDefaultLink">기본 메뉴</a>
+      <a href="./?person=sample" id="liveSampleLink">샘플 메뉴</a>
+    </div>
+    <details class="release-notes">
+      <summary>Release Notes</summary>
+      <ul id="releaseNotesList"></ul>
+    </details>
+  </div>
 </div>
 
 <script>
@@ -278,6 +308,7 @@
    - menu.default.json  : 기본 메뉴
    - menu.sample.json   : 샘플 메뉴
    - ui-config.json : 파티 이모지/컨페티 색상
+   - release-notes.json : 릴리즈 노트 목록
 */
 
 /* ── 카테고리 정의 ──────────────────────────────────────────────── */
@@ -287,6 +318,7 @@ let CATEGORY = {};
 let menu = [];
 let CONFETTI_COLORS = [];
 let PARTY_EMOJIS = [];
+let RELEASE_NOTES = [];
 
 /* ╔══════════════════════════════════════════════════════════════════╗
    ║  ⚙️  여기서부터는 로직 영역 — 수정 불필요                            ║
@@ -348,9 +380,10 @@ async function loadMenuByQueryParam() {
 }
 
 async function loadDataFiles() {
-  const [categoryData, uiConfig] = await Promise.all([
+  const [categoryData, uiConfig, releaseNotesData] = await Promise.all([
     loadJson('./category.json'),
     loadJson('./ui-config.json'),
+    loadJson('./release-notes.json'),
   ]);
   const { menuData, menuPath } = await loadMenuByQueryParam();
   if (!categoryData || typeof categoryData !== 'object' || Array.isArray(categoryData)) {
@@ -360,22 +393,37 @@ async function loadDataFiles() {
   if (!uiConfig || typeof uiConfig !== 'object' || Array.isArray(uiConfig)) {
     throw new Error('ui-config.json 형식 오류');
   }
+  if (!Array.isArray(releaseNotesData)) throw new Error('release-notes.json 형식 오류');
   if (!Array.isArray(uiConfig.confettiColors)) throw new Error('ui-config.json confettiColors 형식 오류');
   if (!Array.isArray(uiConfig.partyEmojis)) throw new Error('ui-config.json partyEmojis 형식 오류');
   CATEGORY = categoryData;
   menu = menuData;
   CONFETTI_COLORS = uiConfig.confettiColors;
   PARTY_EMOJIS = uiConfig.partyEmojis;
+  RELEASE_NOTES = releaseNotesData;
+}
+
+function renderReleaseNotes() {
+  const listEl = document.getElementById('releaseNotesList');
+  if (!listEl) return;
+  if (!Array.isArray(RELEASE_NOTES) || RELEASE_NOTES.length === 0) {
+    listEl.innerHTML = '<li>릴리즈 노트가 없습니다.</li>';
+    return;
+  }
+  listEl.innerHTML = RELEASE_NOTES
+    .map((note) => `<li>${note}</li>`)
+    .join('');
 }
 
 async function init() {
   try {
     await loadDataFiles();
     injectCatStyles();
+    renderReleaseNotes();
   } catch (err) {
     console.error(err);
     document.getElementById('resultName').textContent = '데이터 로드 실패';
-    document.getElementById('resultMeta').innerHTML = '<span>category.json / menu.default.json / menu.*.json / ui-config.json 파일을 확인해주세요</span>';
+    document.getElementById('resultMeta').innerHTML = '<span>category.json / menu.default.json / menu.*.json / ui-config.json / release-notes.json 파일을 확인해주세요</span>';
     return;
   }
   if (new Date().getDay() === 5) { fridayMode = true; activeCat = 'friday'; applyPartyMode(); }
