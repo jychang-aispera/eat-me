@@ -271,71 +271,22 @@
 
 <script>
 /* ╔══════════════════════════════════════════════════════════════════╗
-   ║  ✏️  여기만 수정하세요 — 카테고리 & 메뉴 설정                        ║
+   ║  ✏️  수정 포인트: 데이터 파일만 수정하세요                           ║
    ╚══════════════════════════════════════════════════════════════════╝
 
-   【카테고리 필드 설명】
-     key      : cats 배열에서 사용하는 식별자
-     label    : 탭/뱃지에 표시되는 이름
-     emoji    : 탭 앞에 붙는 이모지 (없애려면 '')
-     color    : 메뉴 칩 도트 색상 (hex)
-     tab      : false 이면 탭에는 표시 안 됨 (도트·뱃지에는 계속 사용)
-
-   【메뉴 필드 설명】
-     name       : 식당 이름
-     count      : 가중치 (높을수록 추첨 확률 ↑)
-     cats       : 카테고리 배열, 복수 지정 가능  예) ["korean","gukbap"]
-     fridayOnly : true = 금요일 모드 ON일 때만 추첨 대상에 포함
+   - category.json  : 카테고리 정의
+   - menu.default.json  : 기본 메뉴
+   - menu.sample.json   : 샘플 메뉴
+   - ui-config.json : 파티 이모지/컨페티 색상
 */
 
 /* ── 카테고리 정의 ──────────────────────────────────────────────── */
-const CATS = {
-  all:      { label: '전체',              emoji: '',   color: null,      tab: true  },
-  korean:   { label: '한식',              emoji: '🥢', color: '#E85C4A', tab: true  },
-  chinese:  { label: '중식',              emoji: '🥡', color: '#E8A32A', tab: true  },
-  japanese: { label: '일식',              emoji: '🍜', color: '#4A9BE8', tab: true  },
-  western:  { label: '양식',              emoji: '🍽️', color: '#7B6CE8', tab: true  },
-  soup:   { label: '국물',              emoji: '🍲', color: '#E87A4A', tab: true  },
-  noodle:   { label: '면',               emoji: '🍝', color: '#2AB87D', tab: true  },
-  other:    { label: '기타',              emoji: '✨', color: '#9B9590', tab: true  },
-  friday:   { label: '금요일 전용',       emoji: '🎉', color: '#C87FFF', tab: true  },
-  // tab: false → 탭에는 안 보이고 결과창 뱃지 + 칩 도트에만 사용
-  nocoupon: { label: '🚫 식권대장 안됨',  emoji: '',   color: '#C0392B', tab: false },
-};
+let CATEGORY = {};
 
-/* ── 메뉴 목록 ──────────────────────────────────────────────────── */
-const menus = [
-  // ── 평일 메뉴 ──────────────────────────────────────────────────
-  {name:"보배반점",       count:7, cats:["chinese","soup"],              fridayOnly:false},
-  {name:"효자동목고기",   count:7, cats:["korean"],               fridayOnly:false},
-  {name:"육전국밥",       count:7, cats:["soup","korean"],      fridayOnly:false},
-  {name:"밀본",           count:5, cats:["soup","noodle"],               fridayOnly:false},
-  {name:"북촌손만두",     count:5, cats:["soup","korean"],               fridayOnly:false},
-  {name:"멘노아지",       count:5, cats:["soup","noodle","japanese"],    fridayOnly:false},
-  {name:"얌샘김밥",       count:5, cats:["korean"],               fridayOnly:false},
-  {name:"대낚식당",       count:2, cats:["korean"],               fridayOnly:false},
-  {name:"마시쏘부대찌개", count:5, cats:["soup","korean"],      fridayOnly:false},
-  {name:"하루나",         count:3, cats:["japanese"],             fridayOnly:false},
-  {name:"란칼국수",       count:3, cats:["soup","noodle","korean"],      fridayOnly:false},
-  {name:"서울왕돈까스",   count:3, cats:["western"],              fridayOnly:false},
-  {name:"화화돈",         count:3, cats:["other","japanese"],     fridayOnly:false},
-  {name:"헤비스테이크",   count:2, cats:["western"],              fridayOnly:false},
-  {name:"희희",           count:3, cats:["chinese"],              fridayOnly:false},
-  {name:"새로운곳발굴",   count:3, cats:["other"],                fridayOnly:false},
-  {name:"삼천만활어횟집", count:3, cats:["soup","korean"],               fridayOnly:false},
-  {name:"LeFreak",        count:1, cats:["western","nocoupon"],   fridayOnly:false},
-  {name:"일상화식",       count:1, cats:["japanese"],             fridayOnly:false},
-  {name:"몽땅생고기",     count:7, cats:["korean"],               fridayOnly:false},
-  {name:"천미향",         count:1, cats:["soup","chinese"],              fridayOnly:false},
-  {name:"성수전",         count:3, cats:["soup","korean"],               fridayOnly:false},
-  {name:"아비꼬",         count:1, cats:["japanese"],             fridayOnly:false},
-  // ── 금요일 전용 (fridayOnly: true) ─────────────────────────────
-  {name:"이랑칼국수",     count:5, cats:["soup","noodle","korean"],      fridayOnly:true},
-  {name:"육품",           count:5, cats:["korean"],               fridayOnly:true},
-  {name:"오부대찌개",     count:1, cats:["soup","korean"],      fridayOnly:true},
-  {name:"더양평해장국",   count:5, cats:["soup","korean"],      fridayOnly:true},
-  {name:"오봉집",         count:1, cats:["korean"],               fridayOnly:true},
-];
+/* ── 메뉴 목록 (외부 JSON 로드) ─────────────────────────────────── */
+let menu = [];
+let CONFETTI_COLORS = [];
+let PARTY_EMOJIS = [];
 
 /* ╔══════════════════════════════════════════════════════════════════╗
    ║  ⚙️  여기서부터는 로직 영역 — 수정 불필요                            ║
@@ -355,15 +306,74 @@ let visibleCount = 0;          // 현재 카테고리 기준 표시 메뉴 수 (
 /* ── 초기화 ────────────────────────────────────────────────────── */
 function injectCatStyles() {
   const style = document.createElement('style');
-  style.textContent = Object.entries(CATS)
+  style.textContent = Object.entries(CATEGORY)
     .filter(([, v]) => v.color)
     .map(([k, v]) => `.cat-${k} { background: ${v.color}; }`)
     .join('\n');
   document.head.appendChild(style);
 }
 
-function init() {
-  injectCatStyles();
+async function loadJson(path) {
+  const res = await fetch(path, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`${path} 로드 실패: ${res.status}`);
+  return res.json();
+}
+
+async function tryLoadJson(path) {
+  const res = await fetch(path, { cache: 'no-store' });
+  if (!res.ok) return null;
+  return res.json();
+}
+
+async function loadMenuByPathname() {
+  const pathSegments = window.location.pathname
+    .split('/')
+    .filter(Boolean)
+    .map((seg) => decodeURIComponent(seg))
+    .filter((seg) => seg !== 'index.html');
+
+  // 뒤쪽 경로부터 menu.{이름}.json 을 찾고, 없으면 기본 메뉴 사용
+  for (let i = pathSegments.length - 1; i >= 0; i--) {
+    const candidate = `./menu.${pathSegments[i]}.json`;
+    const candidateData = await tryLoadJson(candidate);
+    if (Array.isArray(candidateData)) return { menuData: candidateData, menuPath: candidate };
+  }
+
+  const defaultPath = './menu.default.json';
+  return { menuData: await loadJson(defaultPath), menuPath: defaultPath };
+}
+
+async function loadDataFiles() {
+  const [categoryData, uiConfig] = await Promise.all([
+    loadJson('./category.json'),
+    loadJson('./ui-config.json'),
+  ]);
+  const { menuData, menuPath } = await loadMenuByPathname();
+  if (!categoryData || typeof categoryData !== 'object' || Array.isArray(categoryData)) {
+    throw new Error('category.json 형식 오류');
+  }
+  if (!Array.isArray(menuData)) throw new Error(`${menuPath} 형식 오류`);
+  if (!uiConfig || typeof uiConfig !== 'object' || Array.isArray(uiConfig)) {
+    throw new Error('ui-config.json 형식 오류');
+  }
+  if (!Array.isArray(uiConfig.confettiColors)) throw new Error('ui-config.json confettiColors 형식 오류');
+  if (!Array.isArray(uiConfig.partyEmojis)) throw new Error('ui-config.json partyEmojis 형식 오류');
+  CATEGORY = categoryData;
+  menu = menuData;
+  CONFETTI_COLORS = uiConfig.confettiColors;
+  PARTY_EMOJIS = uiConfig.partyEmojis;
+}
+
+async function init() {
+  try {
+    await loadDataFiles();
+    injectCatStyles();
+  } catch (err) {
+    console.error(err);
+    document.getElementById('resultName').textContent = '데이터 로드 실패';
+    document.getElementById('resultMeta').innerHTML = '<span>category.json / menu.default.json / menu.*.json / ui-config.json 파일을 확인해주세요</span>';
+    return;
+  }
   if (new Date().getDay() === 5) { fridayMode = true; activeCat = 'friday'; applyPartyMode(); }
   buildCatTabs();
   renderGrid();
@@ -373,7 +383,7 @@ function init() {
 function buildCatTabs() {
   const tabs = document.getElementById('catTabs');
   tabs.innerHTML = '';
-  Object.entries(CATS)
+  Object.entries(CATEGORY)
     .filter(([, v]) => v.tab !== false)
     .forEach(([key, v]) => {
       const btn = document.createElement('button');
@@ -388,11 +398,11 @@ function buildCatTabs() {
 
 /* ── 메뉴 필터 / 렌더 ────────────────────────────────────────────── */
 function getVisibleMenus() {
-  return menus.filter(m => {
+  return menu.filter(m => {
     if (activeCat === 'friday') return m.fridayOnly;
     if (activeCat === 'all')   return fridayMode ? true : !m.fridayOnly;
     if (m.fridayOnly && !fridayMode) return false;
-    return m.cats.includes(activeCat);
+    return m.category.includes(activeCat);
   });
 }
 
@@ -409,10 +419,10 @@ function renderGrid() {
   }
   grid.innerHTML = '';
   visible.forEach(m => {
-    const realIdx = menus.indexOf(m);
+    const realIdx = menu.indexOf(m);
     const chip = document.createElement('div');
     // nocoupon 은 탭 카테고리가 아니므로 도트에서는 보여줌
-    const visibleCats = m.cats; // 모든 cats 도트 표시 (nocoupon 포함)
+    const visibleCats = m.category; // 모든 category 도트 표시 (nocoupon 포함)
     chip.className = 'menu-chip'
       + (m.fridayOnly ? ' friday-only' : '')
       + (pickedIdx === realIdx ? ' active' : '')
@@ -434,13 +444,13 @@ function renderGrid() {
 function getDrawPool() {
   // 직접 선택된 메뉴가 있으면 해당 메뉴만 사용 (카테고리 필터 무시)
   if (pinnedIdxs.size > 0)
-    return menus.map((m,i)=>({m,i})).filter(({i}) => pinnedIdxs.has(i));
-  if (activeCat === 'friday') return menus.map((m,i)=>({m,i})).filter(({m})=>m.fridayOnly);
+    return menu.map((m,i)=>({m,i})).filter(({i}) => pinnedIdxs.has(i));
+  if (activeCat === 'friday') return menu.map((m,i)=>({m,i})).filter(({m})=>m.fridayOnly);
   if (activeCat === 'all') return fridayMode
-    ? menus.map((m,i)=>({m,i}))
-    : menus.map((m,i)=>({m,i})).filter(({m})=>!m.fridayOnly);
-  return menus.map((m,i)=>({m,i})).filter(({m}) =>
-    m.cats.includes(activeCat) && (fridayMode ? true : !m.fridayOnly)
+    ? menu.map((m,i)=>({m,i}))
+    : menu.map((m,i)=>({m,i})).filter(({m})=>!m.fridayOnly);
+  return menu.map((m,i)=>({m,i})).filter(({m}) =>
+    m.category.includes(activeCat) && (fridayMode ? true : !m.fridayOnly)
   );
 }
 
@@ -479,16 +489,16 @@ function pickMenu() {
     }
     if (!picked) { picked = pool[pool.length-1].m; pidx = pool[pool.length-1].i; }
 
-    const primaryCat = picked.cats.find(c => CATS[c]?.tab !== false) || picked.cats[0] || 'other';
-    emojiEl.textContent = CATS[primaryCat]?.emoji || '🍽️';
+    const primaryCat = picked.category.find(c => CATEGORY[c]?.tab !== false) || picked.category[0] || 'other';
+    emojiEl.textContent = CATEGORY[primaryCat]?.emoji || '🍽️';
     nameEl.textContent  = picked.name;
 
     // 카테고리 뱃지 (tab:false 인 nocoupon 제외, 별도 경고로 표시)
-    const catBadges = picked.cats
-      .filter(c => CATS[c]?.tab !== false)
-      .map(c => `<span class="badge${picked.fridayOnly ? ' friday-badge' : ''}">${CATS[c]?.label||c}</span>`)
+    const catBadges = picked.category
+      .filter(c => CATEGORY[c]?.tab !== false)
+      .map(c => `<span class="badge${picked.fridayOnly ? ' friday-badge' : ''}">${CATEGORY[c]?.label||c}</span>`)
       .join('');
-    const noCouponWarn = picked.cats.includes('nocoupon')
+    const noCouponWarn = picked.category.includes('nocoupon')
       ? `<span class="nocoupon-badge">🚫 식권대장 안됨</span>` : '';
     metaEl.innerHTML = `<div class="cat-badges">${catBadges}</div>${noCouponWarn}<span>가중치 ×${picked.count} / 전체 ${total}표</span>`;
 
@@ -561,7 +571,6 @@ function applyPartyMode() {
 }
 
 /* ── 컨페티 ─────────────────────────────────────────────────────── */
-const CONFETTI_COLORS = ['#FF6BBA','#FFDA36','#59FFB0','#5DB8FF','#C87FFF','#FF9F43','#00D2D3','#FF6B6B'];
 let confettiPieces = [];
 
 function mkPiece(w, h, fromTop) {
@@ -628,7 +637,6 @@ window.addEventListener('resize', () => {
 });
 
 /* ── 추첨 완료 이모지 ─────────────────────────────────────────────── */
-const PARTY_EMOJIS = ['🎉','🎊','🥳','✨','🍾','🎈','🌟','💫','🎁','🥂'];
 function burstEmojis() {
   for (let i = 0; i < 10; i++) {
     setTimeout(() => {

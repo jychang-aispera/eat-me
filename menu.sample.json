@@ -1,0 +1,10 @@
+[
+  { "name": "샘플김밥", "count": 6, "category": ["korean"], "fridayOnly": false },
+  { "name": "샘플국밥", "count": 5, "category": ["soup", "korean"], "fridayOnly": false },
+  { "name": "샘플라멘", "count": 4, "category": ["noodle", "japanese"], "fridayOnly": false },
+  { "name": "샘플짜장", "count": 4, "category": ["chinese"], "fridayOnly": false },
+  { "name": "샘플돈까스", "count": 3, "category": ["western", "japanese"], "fridayOnly": false },
+  { "name": "샘플샐러드", "count": 2, "category": ["western", "other"], "fridayOnly": false },
+  { "name": "샘플해장국", "count": 5, "category": ["soup", "korean"], "fridayOnly": true },
+  { "name": "샘플고기", "count": 5, "category": ["korean"], "fridayOnly": true }
+]
