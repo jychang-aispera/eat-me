@@ -325,18 +325,22 @@ async function tryLoadJson(path) {
   return res.json();
 }
 
-async function loadMenuByPathname() {
-  const pathSegments = window.location.pathname
-    .split('/')
-    .filter(Boolean)
-    .map((seg) => decodeURIComponent(seg))
-    .filter((seg) => seg !== 'index.html');
+function sanitizeProfileKey(raw) {
+  if (!raw) return null;
+  const trimmed = String(raw).trim();
+  // 파일명 주입 방지: 영문/숫자/._- 만 허용
+  if (!/^[a-zA-Z0-9._-]+$/.test(trimmed)) return null;
+  return trimmed;
+}
 
-  // 뒤쪽 경로부터 menu.{이름}.json 을 찾고, 없으면 기본 메뉴 사용
-  for (let i = pathSegments.length - 1; i >= 0; i--) {
-    const candidate = `./menu.${pathSegments[i]}.json`;
-    const candidateData = await tryLoadJson(candidate);
-    if (Array.isArray(candidateData)) return { menuData: candidateData, menuPath: candidate };
+async function loadMenuByQueryParam() {
+  const params = new URLSearchParams(window.location.search);
+  const key = sanitizeProfileKey(params.get('person'));
+
+  if (key) {
+    const candidatePath = `./menu.${key}.json`;
+    const candidateData = await tryLoadJson(candidatePath);
+    if (Array.isArray(candidateData)) return { menuData: candidateData, menuPath: candidatePath };
   }
 
   const defaultPath = './menu.default.json';
@@ -348,7 +352,7 @@ async function loadDataFiles() {
     loadJson('./category.json'),
     loadJson('./ui-config.json'),
   ]);
-  const { menuData, menuPath } = await loadMenuByPathname();
+  const { menuData, menuPath } = await loadMenuByQueryParam();
   if (!categoryData || typeof categoryData !== 'object' || Array.isArray(categoryData)) {
     throw new Error('category.json 형식 오류');
   }
