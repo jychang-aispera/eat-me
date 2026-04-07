@@ -34,7 +34,7 @@
     background: var(--bg);
     color: var(--text-primary);
     min-height: 100vh;
-    padding: 24px 16px 60px;
+    padding: 24px 16px 84px;
     transition: background 0.5s, color 0.4s;
     position: relative;
     overflow-x: hidden;
@@ -238,23 +238,38 @@
   .pin-clear-btn:hover { background: #2AB87D; color: #fff; }
   body.party .pin-clear-btn:hover { background: rgba(89,255,176,0.25); }
 
-  /* ── 배포 링크 / 릴리즈 노트 ── */
-  .info-panel {
-    margin-top: 18px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 12px 14px;
+  .site-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    background: rgba(247, 245, 242, 0.94);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(6px);
+  }
+  .site-footer-inner {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 10px 16px;
     font-size: 12px;
     color: var(--text-secondary);
+    text-align: center;
   }
-  .info-title { font-size: 11px; font-weight: 700; color: var(--text-tertiary); margin-bottom: 6px; }
-  .info-links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
-  .info-links a { color: var(--accent); text-decoration: none; }
-  .info-links a:hover { text-decoration: underline; }
-  .release-notes summary { cursor: pointer; color: var(--text-primary); font-weight: 600; }
-  .release-notes ul { margin: 8px 0 0 16px; }
-  .release-notes li { margin-bottom: 4px; }
+  .site-footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .site-footer a:hover { text-decoration: underline; }
+  .footer-release { margin-top: 6px; text-align: center; }
+  .footer-release summary { cursor: pointer; font-size: 11px; color: var(--text-primary); font-weight: 600; }
+  .footer-release ul { margin: 6px 0 0 16px; font-size: 11px; color: var(--text-secondary); }
+  .footer-release li { margin-bottom: 3px; }
+  body.party .site-footer {
+    background: rgba(13, 13, 26, 0.88);
+    border-top-color: rgba(255,255,255,0.14);
+  }
+  body.party .site-footer-inner { color: rgba(255,255,255,0.72); }
+  body.party .site-footer a { color: #C87FFF; }
+  body.party .footer-release summary { color: rgba(255,255,255,0.9); }
+  body.party .footer-release ul { color: rgba(255,255,255,0.72); }
 </style>
 </head>
 <body>
@@ -286,18 +301,17 @@
   <div class="menu-count" id="menuCount"></div>
   <div class="menu-grid" id="menuGrid"></div>
 
-  <div class="info-panel">
-    <div class="info-title">LIVE</div>
-    <div class="info-links">
-      <a href="./" id="liveDefaultLink">기본 메뉴</a>
-      <a href="./?person=sample" id="liveSampleLink">샘플 메뉴</a>
-    </div>
-    <details class="release-notes">
+</div>
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    메뉴 커스텀 방법 안내:
+    <a href="https://github.com/jychang-aispera/eat-me" target="_blank" rel="noopener noreferrer">github.com/jychang-aispera/eat-me</a>
+    <details class="footer-release">
       <summary>Release Notes</summary>
       <ul id="releaseNotesList"></ul>
     </details>
   </div>
-</div>
+</footer>
 
 <script>
 /* ╔══════════════════════════════════════════════════════════════════╗
@@ -410,9 +424,7 @@ function renderReleaseNotes() {
     listEl.innerHTML = '<li>릴리즈 노트가 없습니다.</li>';
     return;
   }
-  listEl.innerHTML = RELEASE_NOTES
-    .map((note) => `<li>${note}</li>`)
-    .join('');
+  listEl.innerHTML = RELEASE_NOTES.map((note) => `<li>${note}</li>`).join('');
 }
 
 async function init() {
