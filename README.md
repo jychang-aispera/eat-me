@@ -5,13 +5,11 @@
 - 카테고리 수정: `category.json`
 - 기본 메뉴 수정: `menu.default.json`
 - 샘플 메뉴 수정: `menu.sample.json`
-- 파티 모드 색상/이모지 수정: `ui-config.json`
 
 ## 파일 형식
 
 - `category.json`: key-객체 맵 (`label`, `emoji`, `color`, `tab`)
 - `menu.*.json`: 배열 항목 (`name`, `count`, `category`, `fridayOnly`)
-- `ui-config.json`: `confettiColors`, `partyEmojis` 배열
 
 ## 주의사항
 
@@ -20,7 +18,6 @@
 
 ## 사람별 메뉴 적용 방법
 
-- GitHub Pages에서 `/sample/` 같은 경로는 404가 날 수 있어서, 쿼리 파라미터로 프로필을 선택합니다.
 - `?person={이름}` 이 있으면 `menu.{이름}.json`을 로드 시도합니다.
 - 파일이 없거나 파라미터가 없으면 자동으로 `menu.default.json`을 사용합니다.
 - 예시:
@@ -28,7 +25,7 @@
   - `https://<id>.github.io/eat-me/?person=sample` -> `menu.sample.json`
 - 새 사람 메뉴를 추가하려면 `menu.alice.json` 같은 파일을 만들고 `?person=alice`로 접속하면 됩니다.
 
-## 직접 commit 금지 시 PR 올리는 방법
+## 코드 추가 요청하는 방법
 
 - 전제: `main`(또는 기본 브랜치)에 직접 커밋/푸시하지 않고, 항상 작업 브랜치에서 PR 생성
 - 작업 브랜치 생성:
