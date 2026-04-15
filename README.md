@@ -4,7 +4,7 @@
 
 - 카테고리 수정: `category.json`
 - 기본 메뉴 수정: `menu.default.json`
-- 샘플 메뉴 수정: `menu.sample.json`
+- 개인/세트 메뉴 추가: `menu.<set>.json` (예: `menu.jychang.json`)
 
 ## 파일 형식
 
@@ -16,14 +16,14 @@
 - `menu.*.json`의 `category` 값은 반드시 `category.json`에 존재하는 key를 사용하세요.
 - JSON 문법(콤마, 따옴표, 대괄호/중괄호)을 지켜야 화면 로드 에러가 나지 않습니다.
 
-## 사람별 메뉴 적용 방법
+## 메뉴 세트 적용 방법
 
-- `?person={이름}` 이 있으면 `menu.{이름}.json`을 로드 시도합니다.
+- `?set={키}` 가 있으면 `menu.{키}.json`을 로드 시도합니다.
 - 파일이 없거나 파라미터가 없으면 자동으로 `menu.default.json`을 사용합니다.
 - 예시:
   - `https://<id>.github.io/eat-me/` -> `menu.default.json`
-  - `https://<id>.github.io/eat-me/?person=sample` -> `menu.sample.json`
-- 새 사람 메뉴를 추가하려면 `menu.alice.json` 같은 파일을 만들고 `?person=alice`로 접속하면 됩니다.
+  - `https://<id>.github.io/eat-me/?set=jychang` -> `menu.jychang.json`
+- 새 세트를 추가하려면 `menu.infra.json` 같은 파일을 만들고 `?set=infra`로 접속하면 됩니다.
 
 ## 코드 추가 요청하는 방법
 

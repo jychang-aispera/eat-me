@@ -258,10 +258,63 @@
   }
   .site-footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
   .site-footer a:hover { text-decoration: underline; }
-  .footer-release { margin-top: 6px; text-align: center; }
-  .footer-release summary { cursor: pointer; font-size: 11px; color: var(--text-primary); font-weight: 600; }
-  .footer-release ul { margin: 6px 0 0 16px; font-size: 11px; color: var(--text-secondary); }
-  .footer-release li { margin-bottom: 3px; }
+  .footer-release { margin-top: 4px; text-align: center; }
+  .footer-release summary {
+    cursor: pointer;
+    font-size: 10px;
+    color: var(--text-primary);
+    font-weight: 700;
+    list-style: none;
+  }
+  .footer-release summary::-webkit-details-marker { display: none; }
+  .footer-release summary::before {
+    content: '🗒️';
+    margin-right: 6px;
+    opacity: 0.8;
+  }
+  .footer-release[open] summary::before { content: '🗒️'; }
+
+  .footer-release ul {
+    margin: 6px 0 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 5px;
+  }
+  .footer-release .release-item {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 6px 9px;
+    text-align: left;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+    line-height: 1.25;
+  }
+  .footer-release .release-date {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid rgba(212, 98, 42, 0.22);
+    padding: 1px 6px;
+    border-radius: 999px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .footer-release .release-text {
+    font-size: 10px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    line-height: 1.3;
+    vertical-align: middle;
+  }
+  .footer-release .release-empty {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    padding: 4px 0;
+  }
   body.party .site-footer {
     background: rgba(13, 13, 26, 0.88);
     border-top-color: rgba(255,255,255,0.14);
@@ -270,6 +323,17 @@
   body.party .site-footer a { color: #C87FFF; }
   body.party .footer-release summary { color: rgba(255,255,255,0.9); }
   body.party .footer-release ul { color: rgba(255,255,255,0.72); }
+  body.party .footer-release .release-item {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.14);
+    box-shadow: 0 0 30px rgba(180,100,255,0.12);
+  }
+  body.party .footer-release .release-date {
+    color: #C87FFF;
+    background: rgba(200,127,255,0.16);
+    border-color: rgba(200,127,255,0.28);
+  }
+  body.party .footer-release .release-text { color: rgba(255,255,255,0.72); }
 </style>
 </head>
 <body>
@@ -320,7 +384,6 @@
 
    - category.json  : 카테고리 정의
    - menu.default.json  : 기본 메뉴
-   - menu.sample.json   : 샘플 메뉴
    - ui-config.json : 파티 이모지/컨페티 색상
    - release-notes.json : 릴리즈 노트 목록
 */
@@ -381,7 +444,7 @@ function sanitizeProfileKey(raw) {
 
 async function loadMenuByQueryParam() {
   const params = new URLSearchParams(window.location.search);
-  const key = sanitizeProfileKey(params.get('person'));
+  const key = sanitizeProfileKey(params.get('set'));
 
   if (key) {
     const candidatePath = `./menu.${key}.json`;
@@ -421,10 +484,30 @@ function renderReleaseNotes() {
   const listEl = document.getElementById('releaseNotesList');
   if (!listEl) return;
   if (!Array.isArray(RELEASE_NOTES) || RELEASE_NOTES.length === 0) {
-    listEl.innerHTML = '<li>릴리즈 노트가 없습니다.</li>';
+    listEl.innerHTML = '<li class="release-empty">릴리즈 노트가 없습니다.</li>';
     return;
   }
-  listEl.innerHTML = RELEASE_NOTES.map((note) => `<li>${note}</li>`).join('');
+  const top2 = RELEASE_NOTES.slice(0, 2);
+  listEl.innerHTML = top2.map((note) => {
+    const raw = String(note ?? '').trim();
+    const m = raw.match(/^(\d{4}-\d{2}-\d{2})\s*:\s*(.+)$/);
+    const date = m?.[1] ?? '';
+    const text = m?.[2] ?? raw;
+    return `
+      <li class="release-item">
+        ${date ? `<span class="release-date">${date}</span>` : ''}
+        <span class="release-text">${escapeHtml(text)}</span>
+      </li>`;
+  }).join('');
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
 }
 
 async function init() {

@@ -4,6 +4,7 @@
   "chinese": { "label": "중식", "emoji": "🥡", "color": "#E8A32A", "tab": true },
   "japanese": { "label": "일식", "emoji": "🍜", "color": "#4A9BE8", "tab": true },
   "western": { "label": "양식", "emoji": "🍽️", "color": "#7B6CE8", "tab": true },
+  "light": { "label": "라이트", "emoji": "🥗", "color": "#6BCB77", "tab": true },
   "soup": { "label": "국물", "emoji": "🍲", "color": "#E87A4A", "tab": true },
   "noodle": { "label": "면", "emoji": "🍝", "color": "#2AB87D", "tab": true },
   "other": { "label": "기타", "emoji": "✨", "color": "#9B9590", "tab": true },
