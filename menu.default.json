@@ -1,6 +1,6 @@
 [
   { "name": "샐러링", "count": 1, "category": ["western", "light"], "fridayOnly": false },
-  { "name": "얌샘김밥", "count": 1, "category": ["korean"], "fridayOnly": false },
+  { "name": "얌샘김밥", "count": 1, "category": ["bunsik"], "fridayOnly": false },
   { "name": "멘노아지", "count": 1, "category": ["japanese", "soup", "noodle"], "fridayOnly": false },
   { "name": "희희", "count": 1, "category": ["chinese"], "fridayOnly": false },
   { "name": "대낚식당", "count": 1, "category": ["korean"], "fridayOnly": false },

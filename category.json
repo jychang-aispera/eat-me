@@ -1,13 +1,14 @@
 {
-  "all": { "label": "전체", "emoji": "", "color": null, "tab": true },
-  "korean": { "label": "한식", "emoji": "🥢", "color": "#E85C4A", "tab": true },
-  "chinese": { "label": "중식", "emoji": "🥡", "color": "#E8A32A", "tab": true },
-  "japanese": { "label": "일식", "emoji": "🍜", "color": "#4A9BE8", "tab": true },
-  "western": { "label": "양식", "emoji": "🍽️", "color": "#7B6CE8", "tab": true },
-  "light": { "label": "라이트", "emoji": "🥗", "color": "#6BCB77", "tab": true },
-  "soup": { "label": "국물", "emoji": "🍲", "color": "#E87A4A", "tab": true },
-  "noodle": { "label": "면", "emoji": "🍝", "color": "#2AB87D", "tab": true },
-  "other": { "label": "기타", "emoji": "✨", "color": "#9B9590", "tab": true },
-  "friday": { "label": "금요일 전용", "emoji": "🎉", "color": "#C87FFF", "tab": true },
-  "nocoupon": { "label": "🚫 식권대장 안됨", "emoji": "", "color": "#C0392B", "tab": false }
+  "all":     { "label": "전체",          "emoji": "",    "color": null,      "tab": true  },
+  "korean":  { "label": "한식",          "emoji": "🥢",  "color": "#E85C4A", "tab": true  },
+  "chinese": { "label": "중식",          "emoji": "🥡",  "color": "#E8A32A", "tab": true  },
+  "japanese":{ "label": "일식",          "emoji": "🍜",  "color": "#4A9BE8", "tab": true  },
+  "western": { "label": "양식",          "emoji": "🍽️",  "color": "#7B6CE8", "tab": true  },
+  "bunsik":  { "label": "분식",          "emoji": "🥟",  "color": "#F4A261", "tab": true  },
+  "light":   { "label": "라이트",        "emoji": "🥗",  "color": "#6BCB77", "tab": true  },
+  "soup":    { "label": "국물",          "emoji": "🍲",  "color": "#E87A4A", "tab": true  },
+  "noodle":  { "label": "면",            "emoji": "🍝",  "color": "#2AB87D", "tab": true  },
+  "other":   { "label": "기타",          "emoji": "✨",  "color": "#9B9590", "tab": true  },
+  "friday":  { "label": "금요일 전용",   "emoji": "🎉",  "color": "#C87FFF", "tab": true  },
+  "nocoupon":{ "label": "🚫 식권대장 안됨", "emoji": "", "color": "#C0392B", "tab": false }
 }

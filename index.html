@@ -116,9 +116,204 @@
   .container { max-width: 520px; margin: 0 auto; }
 
   .header { margin-bottom: 20px; }
-  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-  .title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; transition: color 0.4s; }
+  .header-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+  .header-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .header-right { display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    transition: color 0.4s;
+    flex: 1;
+    min-width: 0;
+  }
   .title span { color: var(--accent); transition: color 0.4s; }
+  .title-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+    color: inherit;
+    font: inherit;
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .title-btn:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  .set-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    flex-shrink: 0;
+  }
+  .set-pill-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+  .set-dd { position: relative; }
+  .set-dd-btn {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 5px 26px 5px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    line-height: 1.2;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .set-dd-btn::after {
+    content: '▾';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-48%);
+    font-size: 12px;
+    color: var(--text-tertiary);
+    pointer-events: none;
+  }
+  .set-dd-menu {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
+    min-width: 200px;
+    max-width: min(280px, 74vw);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+    padding: 5px;
+    display: none;
+    z-index: 20;
+  }
+  .set-dd.open .set-dd-menu { display: block; }
+  .set-dd-item {
+    width: 100%;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: 12px;
+    padding: 8px 9px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .set-dd-item:hover { background: var(--surface2); }
+  .set-dd-item.active {
+    background: var(--accent-soft);
+    border-color: rgba(212, 98, 42, 0.22);
+    color: var(--accent);
+  }
+  .set-dd-main { min-width: 0; display: flex; align-items: center; gap: 8px; flex: 1; }
+  .set-dd-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .set-dd-edit-btn {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+  }
+  .set-dd-edit-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .set-dd-key {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-tertiary);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .set-dd-item.active .set-dd-key {
+    background: rgba(212, 98, 42, 0.12);
+    border-color: rgba(212, 98, 42, 0.18);
+    color: var(--accent);
+  }
+
+  body.party .set-pill {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.14);
+    box-shadow: 0 0 24px rgba(180,100,255,0.12);
+  }
+  body.party .set-pill-label { color: rgba(255,255,255,0.5); }
+  body.party .set-dd-btn {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.78);
+  }
+  body.party .set-dd-btn::after { color: rgba(255,255,255,0.55); }
+  body.party .set-dd-menu {
+    background: rgba(13, 13, 26, 0.92);
+    border-color: rgba(255,255,255,0.14);
+    box-shadow: 0 0 36px rgba(180,100,255,0.18);
+    backdrop-filter: blur(6px);
+  }
+  body.party .set-dd-item { color: rgba(255,255,255,0.72); }
+  body.party .set-dd-item:hover { background: rgba(255,255,255,0.08); }
+  body.party .set-dd-item.active {
+    background: rgba(200,127,255,0.18);
+    border-color: rgba(200,127,255,0.30);
+    color: #E0BFFF;
+  }
+  body.party .set-dd-key {
+    color: rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.14);
+  }
+  body.party .set-dd-item.active .set-dd-key {
+    background: rgba(200,127,255,0.18);
+    border-color: rgba(200,127,255,0.26);
+    color: #E0BFFF;
+  }
+  body.party .set-dd-edit-btn {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.78);
+  }
+  body.party .set-dd-edit-btn:hover { border-color: #C87FFF; color: #E0BFFF; }
+  .set-dd-divider { height: 1px; background: var(--border); margin: 4px 4px; }
+  .set-dd-add-btn {
+    width: 100%;
+    border: 1px dashed var(--border);
+    background: transparent;
+    color: var(--text-tertiary);
+    border-radius: 10px;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    text-align: left;
+  }
+  .set-dd-add-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  body.party .set-dd-divider { background: rgba(255,255,255,0.12); }
+  body.party .set-dd-add-btn { border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.5); }
+  body.party .set-dd-add-btn:hover { border-color: #C87FFF; color: #E0BFFF; background: rgba(200,127,255,0.12); }
 
   .day-badge {
     display: inline-flex; align-items: center; gap: 5px;
@@ -254,43 +449,104 @@
     padding: 10px 16px;
     font-size: 12px;
     color: var(--text-secondary);
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
   }
-  .site-footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
-  .site-footer a:hover { text-decoration: underline; }
-  .footer-release { margin-top: 4px; text-align: center; }
-  .footer-release summary {
-    cursor: pointer;
-    font-size: 10px;
-    color: var(--text-primary);
-    font-weight: 700;
-    list-style: none;
-  }
-  .footer-release summary::-webkit-details-marker { display: none; }
-  .footer-release summary::before {
-    content: '🗒️';
-    margin-right: 6px;
-    opacity: 0.8;
-  }
-  .footer-release[open] summary::before { content: '🗒️'; }
-
-  .footer-release ul {
-    margin: 6px 0 0 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
+  .footer-gh-link {
+    display: inline-flex;
+    align-items: center;
     gap: 5px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 0;
   }
-  .footer-release .release-item {
+  .footer-gh-link:hover { color: var(--accent); }
+  .footer-gh-icon { flex-shrink: 0; opacity: 0.65; }
+  .footer-gh-link:hover .footer-gh-icon { opacity: 1; }
+  .footer-gh-link span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .footer-rn-btn {
+    flex-shrink: 0;
     border: 1px solid var(--border);
-    background: var(--surface);
-    border-radius: 10px;
-    padding: 6px 9px;
-    text-align: left;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-    line-height: 1.25;
+    background: var(--surface2);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
   }
-  .footer-release .release-date {
+  .footer-rn-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Release Notes 모달 */
+  .rn-modal {
+    position: fixed; inset: 0; z-index: 40;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .rn-modal.open { display: flex; }
+  .rn-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(2px);
+  }
+  .rn-box {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    max-height: 70vh;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -6px 32px rgba(0,0,0,0.14);
+    overflow-y: auto;
+    padding: 16px 16px 24px;
+  }
+  .rn-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .rn-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+  .rn-close {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+  }
+  .rn-close:hover { border-color: var(--accent); color: var(--accent); }
+  .rn-list {
+    margin: 0; padding: 0; list-style: none;
+    display: grid; gap: 6px;
+  }
+  .release-item {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 8px 10px;
+    text-align: left;
+    line-height: 1.3;
+  }
+  .release-date {
     display: inline-block;
     font-size: 9px;
     font-weight: 800;
@@ -303,37 +559,213 @@
     margin-right: 6px;
     vertical-align: middle;
   }
-  .footer-release .release-text {
-    font-size: 10px;
+  .release-text {
+    font-size: 11px;
     color: var(--text-secondary);
     font-weight: 500;
-    line-height: 1.3;
     vertical-align: middle;
   }
-  .footer-release .release-empty {
-    font-size: 10px;
+  .release-empty {
+    font-size: 11px;
     color: var(--text-tertiary);
     padding: 4px 0;
   }
+
   body.party .site-footer {
     background: rgba(13, 13, 26, 0.88);
     border-top-color: rgba(255,255,255,0.14);
   }
   body.party .site-footer-inner { color: rgba(255,255,255,0.72); }
-  body.party .site-footer a { color: #C87FFF; }
-  body.party .footer-release summary { color: rgba(255,255,255,0.9); }
-  body.party .footer-release ul { color: rgba(255,255,255,0.72); }
-  body.party .footer-release .release-item {
-    background: rgba(255,255,255,0.06);
+  body.party .footer-gh-link { color: rgba(255,255,255,0.6); }
+  body.party .footer-gh-link:hover { color: #C87FFF; }
+  body.party .footer-rn-btn {
+    background: rgba(255,255,255,0.08);
     border-color: rgba(255,255,255,0.14);
-    box-shadow: 0 0 30px rgba(180,100,255,0.12);
+    color: rgba(255,255,255,0.72);
   }
-  body.party .footer-release .release-date {
+  body.party .footer-rn-btn:hover { border-color: #C87FFF; color: #E0BFFF; }
+  body.party .rn-box {
+    background: rgba(13, 13, 26, 0.95);
+    border-color: rgba(255,255,255,0.14);
+    box-shadow: 0 -6px 40px rgba(180,100,255,0.18);
+  }
+  body.party .rn-title { color: rgba(255,255,255,0.92); }
+  body.party .rn-close {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.72);
+  }
+  body.party .rn-close:hover { border-color: #C87FFF; color: #E0BFFF; }
+  body.party .release-item {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.12);
+  }
+  body.party .release-date {
     color: #C87FFF;
     background: rgba(200,127,255,0.16);
     border-color: rgba(200,127,255,0.28);
   }
-  body.party .footer-release .release-text { color: rgba(255,255,255,0.72); }
+  body.party .release-text { color: rgba(255,255,255,0.72); }
+
+  /* ── Edit modal (hidden unless #edit) ─────────────────────────── */
+  .edit-modal {
+    position: fixed; inset: 0; z-index: 30;
+    display: none;
+  }
+  .edit-modal.open { display: block; }
+  .edit-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
+  }
+  .edit-sheet {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 14px;
+    width: min(520px, calc(100vw - 24px));
+    max-height: min(78vh, 720px);
+    overflow: auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 18px 60px rgba(0,0,0,0.20);
+  }
+  .edit-head {
+    position: sticky; top: 0; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+  }
+  body.party .edit-sheet { background: rgba(13, 13, 26, 0.92); border-color: rgba(255,255,255,0.14); }
+  body.party .edit-head { background: rgba(13, 13, 26, 0.86); border-bottom-color: rgba(255,255,255,0.14); }
+  .edit-title { font-size: 14px; font-weight: 900; letter-spacing: -0.3px; }
+  .edit-sub { font-size: 11px; color: var(--text-tertiary); font-weight: 600; }
+  body.party .edit-sub { color: rgba(255,255,255,0.55); }
+  .edit-close {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  body.party .edit-close { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.78); }
+  .edit-body { padding: 12px 14px 14px; }
+  .edit-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .edit-row.one { grid-template-columns: 1fr; }
+  .edit-field label { display: block; font-size: 11px; font-weight: 800; color: var(--text-tertiary); margin-bottom: 5px; }
+  body.party .edit-field label { color: rgba(255,255,255,0.55); }
+  .edit-input, .edit-select {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 10px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  body.party .edit-input, body.party .edit-select {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.14);
+    color: rgba(255,255,255,0.85);
+  }
+  .edit-gh-link {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 10px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  .edit-gh-link:hover { text-decoration: underline; border-color: var(--accent); }
+  body.party .edit-gh-link {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.14);
+    color: #C87FFF;
+  }
+  body.party .edit-gh-link:hover { border-color: #C87FFF; }
+  .edit-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .edit-btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-primary);
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+  .edit-btn.primary { background: var(--accent); border-color: transparent; color: #fff; }
+  .edit-btn.danger { background: #C0392B; border-color: transparent; color: #fff; }
+  .edit-btn.ghost { background: var(--surface2); }
+  body.party .edit-btn { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.85); }
+  body.party .edit-btn.ghost { background: rgba(255,255,255,0.08); }
+  body.party .edit-btn.primary { background: linear-gradient(135deg,#FF6BBA,#C87FFF,#5DB8FF); border-color: transparent; color: #fff; }
+  .edit-divider { height: 1px; background: var(--border); margin: 12px 0; }
+  body.party .edit-divider { background: rgba(255,255,255,0.14); }
+  .edit-list { display: grid; gap: 8px; }
+  .edit-item {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 10px 10px;
+  }
+  body.party .edit-item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.14); }
+  .edit-item-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .edit-item-name { font-size: 14px; font-weight: 900; letter-spacing: -0.3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .edit-item-meta { font-size: 11px; color: var(--text-tertiary); font-weight: 700; }
+  body.party .edit-item-meta { color: rgba(255,255,255,0.55); }
+  .edit-cat-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .edit-cat-chip {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .edit-cat-chip.on { border-color: rgba(212, 98, 42, 0.35); background: var(--accent-soft); color: var(--accent); }
+  body.party .edit-cat-chip { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.78); }
+  body.party .edit-cat-chip.on { background: rgba(200,127,255,0.18); border-color: rgba(200,127,255,0.30); color: #E0BFFF; }
+  .tmpl-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tmpl-chip {
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    user-select: none;
+    color: var(--text-secondary);
+    transition: border-color 0.1s, background 0.1s, color 0.1s;
+  }
+  .tmpl-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .tmpl-chip.on { border-color: rgba(212,98,42,0.35); background: var(--accent-soft); color: var(--accent); }
+  .tmpl-group-label { font-size: 10px; font-weight: 700; color: var(--text-tertiary); margin-bottom: 6px; letter-spacing: 0.2px; }
+  body.party .tmpl-chip { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.14); color: rgba(255,255,255,0.72); }
+  body.party .tmpl-chip:hover { border-color: #C87FFF; color: #E0BFFF; }
+  body.party .tmpl-chip.on { background: rgba(200,127,255,0.18); border-color: rgba(200,127,255,0.30); color: #E0BFFF; }
 </style>
 </head>
 <body>
@@ -341,11 +773,26 @@
 <div class="container">
   <div class="header">
     <div class="header-top">
-      <h1 class="title">오늘 <span>뭐</span> 먹지?</h1>
-      <button class="day-badge" id="fridayToggle" onclick="toggleFriday()">
-        <span class="dot"></span>
-        <span id="fridayLabel">금요일 모드</span>
-      </button>
+      <div class="header-left">
+        <h1 class="title">
+          <button class="title-btn" type="button" onclick="goHome()" aria-label="기본 화면으로 이동">
+            오늘 <span>뭐</span> 먹지?
+          </button>
+        </h1>
+        <div class="set-pill" title="메뉴 세트 선택">
+          <span class="set-pill-label">SET</span>
+          <div class="set-dd" id="setDropdown">
+            <button type="button" class="set-dd-btn" id="setBtn" aria-haspopup="menu" aria-expanded="false" onclick="toggleSetDropdown()"></button>
+            <div class="set-dd-menu" id="setMenu" role="menu" aria-label="세트 목록"></div>
+          </div>
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="day-badge" id="fridayToggle" onclick="toggleFriday()">
+          <span class="dot"></span>
+          <span id="fridayLabel">금요일 모드</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -368,14 +815,42 @@
 </div>
 <footer class="site-footer">
   <div class="site-footer-inner">
-    메뉴 커스텀 방법 안내:
-    <a href="https://github.com/jychang-aispera/eat-me" target="_blank" rel="noopener noreferrer">github.com/jychang-aispera/eat-me</a>
-    <details class="footer-release">
-      <summary>Release Notes</summary>
-      <ul id="releaseNotesList"></ul>
-    </details>
+    <a class="footer-gh-link" href="https://github.com/jychang-aispera/eat-me" target="_blank" rel="noopener noreferrer" title="GitHub 경로">
+      <svg class="footer-gh-icon" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="currentColor">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      <span>jychang-aispera/eat-me</span>
+    </a>
+    <button class="footer-rn-btn" type="button" onclick="openReleaseNotes()">Release Notes</button>
   </div>
 </footer>
+
+<!-- Release Notes 모달 -->
+<div class="rn-modal" id="rnModal" aria-hidden="true">
+  <div class="rn-backdrop" onclick="closeReleaseNotes()"></div>
+  <div class="rn-box" role="dialog" aria-modal="true" aria-label="Release Notes">
+    <div class="rn-head">
+      <span class="rn-title">🗒️ Release Notes</span>
+      <button class="rn-close" type="button" onclick="closeReleaseNotes()">닫기</button>
+    </div>
+    <ul class="rn-list" id="releaseNotesList"></ul>
+  </div>
+</div>
+
+<!-- 편집 모드: URL 해시가 #edit 일 때만 열림 -->
+<div class="edit-modal" id="editModal" aria-hidden="true">
+  <div class="edit-backdrop" onclick="closeEditModal()"></div>
+  <div class="edit-sheet" role="dialog" aria-modal="true" aria-label="세트 편집">
+    <div class="edit-head">
+      <div>
+        <div class="edit-title" id="editTitle">세트 편집</div>
+        <div class="edit-sub" id="editSub">#edit 모드에서만 보입니다</div>
+      </div>
+      <button class="edit-close" type="button" onclick="closeEditModal()">닫기</button>
+    </div>
+    <div class="edit-body" id="editBody"></div>
+  </div>
+</div>
 
 <script>
 /* ╔══════════════════════════════════════════════════════════════════╗
@@ -396,6 +871,23 @@ let menu = [];
 let CONFETTI_COLORS = [];
 let PARTY_EMOJIS = [];
 let RELEASE_NOTES = [];
+let SETS = [];
+let CURRENT_SET_KEY = '';
+let setMenuOpen = false;
+let REQUESTED_SET_KEY = '';
+let REQUESTED_SET_EXISTS = true;
+
+// edit mode state (in-memory; downloads files instead of saving)
+let editOpen = false;
+let editSetKey = '';
+let editSetLabel = '';
+let editItems = [];
+let editDirty = false;
+let editForm = null; // { idx|null, name, count, fridayOnly, category[] }
+let INITIAL_SETS_JSON = '';
+let INITIAL_CATEGORY_JSON = '';
+let ORIGINAL_MENU_JSON_BY_KEY = {};
+const GITHUB_DATA_PATH_URL = 'https://github.com/jychang-aispera/eat-me';
 
 /* ╔══════════════════════════════════════════════════════════════════╗
    ║  ⚙️  여기서부터는 로직 영역 — 수정 불필요                            ║
@@ -444,25 +936,29 @@ function sanitizeProfileKey(raw) {
 
 async function loadMenuByQueryParam() {
   const params = new URLSearchParams(window.location.search);
-  const key = sanitizeProfileKey(params.get('set'));
+  const requestedKey = sanitizeProfileKey(params.get('set'));
 
-  if (key) {
-    const candidatePath = `./menu.${key}.json`;
+  if (requestedKey) {
+    const candidatePath = `./menu.${requestedKey}.json`;
     const candidateData = await tryLoadJson(candidatePath);
-    if (Array.isArray(candidateData)) return { menuData: candidateData, menuPath: candidatePath };
+    if (Array.isArray(candidateData)) {
+      return { menuData: candidateData, menuPath: candidatePath, setKey: requestedKey, requestedKey, exists: true };
+    }
+    return { menuData: await loadJson('./menu.default.json'), menuPath: './menu.default.json', setKey: '', requestedKey, exists: false };
   }
 
   const defaultPath = './menu.default.json';
-  return { menuData: await loadJson(defaultPath), menuPath: defaultPath };
+  return { menuData: await loadJson(defaultPath), menuPath: defaultPath, setKey: '', requestedKey: '', exists: true };
 }
 
 async function loadDataFiles() {
-  const [categoryData, uiConfig, releaseNotesData] = await Promise.all([
+  const [categoryData, uiConfig, releaseNotesData, setsData] = await Promise.all([
     loadJson('./category.json'),
     loadJson('./ui-config.json'),
     loadJson('./release-notes.json'),
+    tryLoadJson('./sets.json'),
   ]);
-  const { menuData, menuPath } = await loadMenuByQueryParam();
+  const { menuData, menuPath, setKey, requestedKey, exists } = await loadMenuByQueryParam();
   if (!categoryData || typeof categoryData !== 'object' || Array.isArray(categoryData)) {
     throw new Error('category.json 형식 오류');
   }
@@ -473,11 +969,23 @@ async function loadDataFiles() {
   if (!Array.isArray(releaseNotesData)) throw new Error('release-notes.json 형식 오류');
   if (!Array.isArray(uiConfig.confettiColors)) throw new Error('ui-config.json confettiColors 형식 오류');
   if (!Array.isArray(uiConfig.partyEmojis)) throw new Error('ui-config.json partyEmojis 형식 오류');
+  if (setsData != null && !Array.isArray(setsData)) throw new Error('sets.json 형식 오류');
   CATEGORY = categoryData;
   menu = menuData;
   CONFETTI_COLORS = uiConfig.confettiColors;
   PARTY_EMOJIS = uiConfig.partyEmojis;
   RELEASE_NOTES = releaseNotesData;
+  SETS = (Array.isArray(setsData) ? setsData : [])
+    .filter(s => s && typeof s === 'object')
+    .map(s => ({ key: sanitizeProfileKey(s.key) ?? '', label: String(s.label ?? s.key ?? '기본') }));
+  // 기본 세트는 항상 존재하게
+  if (!SETS.some(s => (s.key ?? '') === '')) SETS.unshift({ key: '', label: '기본' });
+  CURRENT_SET_KEY = setKey ?? '';
+  REQUESTED_SET_KEY = requestedKey ?? '';
+  REQUESTED_SET_EXISTS = !!exists;
+  INITIAL_SETS_JSON = JSON.stringify(getSetsDownloadData(), null, 2);
+  INITIAL_CATEGORY_JSON = JSON.stringify(CATEGORY, null, 2);
+  ORIGINAL_MENU_JSON_BY_KEY[CURRENT_SET_KEY ?? ''] = JSON.stringify(menu, null, 2);
 }
 
 function renderReleaseNotes() {
@@ -487,8 +995,7 @@ function renderReleaseNotes() {
     listEl.innerHTML = '<li class="release-empty">릴리즈 노트가 없습니다.</li>';
     return;
   }
-  const top2 = RELEASE_NOTES.slice(0, 2);
-  listEl.innerHTML = top2.map((note) => {
+  listEl.innerHTML = RELEASE_NOTES.map((note) => {
     const raw = String(note ?? '').trim();
     const m = raw.match(/^(\d{4}-\d{2}-\d{2})\s*:\s*(.+)$/);
     const date = m?.[1] ?? '';
@@ -499,6 +1006,20 @@ function renderReleaseNotes() {
         <span class="release-text">${escapeHtml(text)}</span>
       </li>`;
   }).join('');
+}
+
+function openReleaseNotes() {
+  const modal = document.getElementById('rnModal');
+  if (!modal) return;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeReleaseNotes() {
+  const modal = document.getElementById('rnModal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
 }
 
 function escapeHtml(s) {
@@ -515,6 +1036,7 @@ async function init() {
     await loadDataFiles();
     injectCatStyles();
     renderReleaseNotes();
+    renderSetPicker();
   } catch (err) {
     console.error(err);
     document.getElementById('resultName').textContent = '데이터 로드 실패';
@@ -524,7 +1046,628 @@ async function init() {
   if (new Date().getDay() === 5) { fridayMode = true; activeCat = 'friday'; applyPartyMode(); }
   buildCatTabs();
   renderGrid();
+  maybeOpenEditFromHash();
 }
+
+function isEditHash() {
+  return String(window.location.hash || '').toLowerCase() === '#edit';
+}
+
+function maybeOpenEditFromHash() {
+  if (!isEditHash()) return;
+  openEditModal();
+}
+
+window.addEventListener('hashchange', () => {
+  if (isEditHash()) openEditModal();
+  else closeEditModal(true);
+});
+
+function getSetLabelByKey(key) {
+  const found = SETS.find(s => (s.key ?? '') === (key ?? ''));
+  return found?.label ?? (key ? key : '기본');
+}
+
+function closeEditModal(keepHash = false) {
+  const modal = document.getElementById('editModal');
+  if (modal) {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+  editOpen = false;
+  if (!keepHash && isEditHash()) {
+    // remove hash without reloading
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+}
+
+function openCreateSetModal() {
+  const modal = document.getElementById('editModal');
+  if (!modal) return;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  editOpen = true;
+  editSetKey = '';
+  editSetLabel = '새 세트';
+  editDirty = false;
+  editForm = null;
+  const title = document.getElementById('editTitle');
+  const sub = document.getElementById('editSub');
+  if (title) title.textContent = '새 세트 만들기';
+  if (sub) sub.textContent = 'set key와 이름을 입력하고 편집을 시작하세요';
+  renderEditCreateView('');
+}
+
+function openEditModal() {
+  const modal = document.getElementById('editModal');
+  if (!modal) return;
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
+  editOpen = true;
+
+  // Determine target set:
+  // - if user asked ?set=key#edit => edit that key
+  // - else edit currently loaded (default or existing)
+  const target = REQUESTED_SET_KEY || CURRENT_SET_KEY || '';
+  const exists = REQUESTED_SET_KEY ? REQUESTED_SET_EXISTS : true;
+  editSetKey = target || '';
+  editSetLabel = getSetLabelByKey(editSetKey);
+  editDirty = false;
+  editForm = null;
+
+  const title = document.getElementById('editTitle');
+  const sub = document.getElementById('editSub');
+  if (title) title.textContent = `세트 편집: ${editSetLabel}`;
+  if (sub) {
+    const fileName = editSetKey ? `menu.${editSetKey}.json` : 'menu.default.json';
+    sub.textContent = `${fileName} 편집 → 다운로드로 반영 (GitHub에 업로드/교체)`;
+  }
+
+  // 기본 세트(key='')는 읽기 전용
+  if ((editSetKey ?? '') === '') {
+    const body = document.getElementById('editBody');
+    if (title) title.textContent = '기본 세트 (읽기 전용)';
+    if (sub) sub.textContent = 'menu.default.json은 수정할 수 없습니다';
+    if (body) body.innerHTML = `
+      <div class="edit-sub" style="margin-top:16px;line-height:1.7">
+        기본 세트는 읽기 전용입니다.<br>
+        SET 드롭다운 → <b>+ 새 세트 추가</b>로 개인 세트를 만들어 사용하세요.
+      </div>
+      <div class="edit-actions" style="margin-top:14px">
+        <button class="edit-btn primary" type="button" onclick="closeEditModal();setTimeout(()=>{openCreateSetModal();},120)">새 세트 만들기</button>
+        <button class="edit-btn ghost" type="button" onclick="closeEditModal()">닫기</button>
+      </div>`;
+    return;
+  }
+
+  if (REQUESTED_SET_KEY && !exists) {
+    // Requested set file does not exist yet: offer create flow
+    editItems = [];
+    renderEditCreateView(editSetKey);
+    return;
+  }
+
+  // Existing set: clone currently loaded menu into editor when keys match,
+  // otherwise try to load from file lazily (best effort).
+  if ((editSetKey ?? '') === (CURRENT_SET_KEY ?? '')) {
+    editItems = JSON.parse(JSON.stringify(menu));
+    ORIGINAL_MENU_JSON_BY_KEY[editSetKey ?? ''] = JSON.stringify(editItems, null, 2);
+    renderEditMainView();
+  } else if (editSetKey) {
+    loadJson(`./menu.${editSetKey}.json`).then((data) => {
+      editItems = Array.isArray(data) ? JSON.parse(JSON.stringify(data)) : [];
+      ORIGINAL_MENU_JSON_BY_KEY[editSetKey] = JSON.stringify(editItems, null, 2);
+      renderEditMainView();
+    }).catch(() => {
+      editItems = [];
+      ORIGINAL_MENU_JSON_BY_KEY[editSetKey] = '__MISSING__';
+      renderEditCreateView(editSetKey);
+    });
+  } else {
+    editItems = JSON.parse(JSON.stringify(menu));
+    ORIGINAL_MENU_JSON_BY_KEY[''] = JSON.stringify(editItems, null, 2);
+    renderEditMainView();
+  }
+}
+
+function renderEditCreateView(prefilledKey) {
+  const body = document.getElementById('editBody');
+  if (!body) return;
+  const keyDefault = sanitizeProfileKey(prefilledKey) ?? '';
+  const copyChips = SETS.map(({ key, label }) => {
+    const k = key ?? '';
+    const l = escapeHtml(label ?? (k || '기본'));
+    return `<div class="tmpl-chip" data-tmpl="copy:${escapeHtml(k)}" onclick="selectTmplChip(this)">${l}</div>`;
+  }).join('');
+  body.innerHTML = `
+    <div class="edit-row">
+      <div class="edit-field">
+        <label>새 set key</label>
+        <input class="edit-input" id="newSetKey" placeholder="예: infra" value="${escapeHtml(keyDefault)}" />
+      </div>
+      <div class="edit-field">
+        <label>표시명(label)</label>
+        <input class="edit-input" id="newSetLabel" placeholder="예: 인프라플랫폼팀" value="${escapeHtml(keyDefault || '')}" />
+      </div>
+    </div>
+    <div class="edit-field" style="margin-top:10px">
+      <label>템플릿</label>
+      <div class="tmpl-chips" id="newSetTemplateChips">
+        <div class="tmpl-chip on" data-tmpl="empty" onclick="selectTmplChip(this)">빈 세트</div>
+        ${copyChips}
+      </div>
+      ${SETS.length ? '<div class="tmpl-group-label" style="margin-top:6px">세트 이름 선택 시 해당 세트를 복사합니다</div>' : ''}
+    </div>
+    <div class="edit-actions">
+      <button class="edit-btn primary" type="button" onclick="createNewSetFromEditor()">새 세트 만들고 편집 시작</button>
+      <button class="edit-btn ghost" type="button" onclick="closeEditModal()">닫기</button>
+    </div>
+    <div class="edit-row one" style="margin-top:10px">
+      <div class="edit-field">
+        <label>GitHub 반영 경로</label>
+        <a class="edit-gh-link" href="${escapeHtml(GITHUB_DATA_PATH_URL)}" target="_blank" rel="noopener noreferrer">${escapeHtml(GITHUB_DATA_PATH_URL)}</a>
+      </div>
+    </div>
+    <div class="edit-divider"></div>
+    <div class="edit-sub">팁: 새 세트는 서버에 저장되지 않습니다. 편집 완료 후 파일을 내려받아 GitHub에 업로드하면 됩니다.</div>
+  `;
+}
+
+function selectTmplChip(el) {
+  const parent = el.closest('#newSetTemplateChips');
+  if (!parent) return;
+  parent.querySelectorAll('.tmpl-chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+async function createNewSetFromEditor() {
+  const keyEl = document.getElementById('newSetKey');
+  const labelEl = document.getElementById('newSetLabel');
+  const rawKey = sanitizeProfileKey(keyEl?.value);
+  if (!rawKey) {
+    alert('set key는 영문/숫자/._- 만 사용할 수 있어요.');
+    return;
+  }
+  const label = String(labelEl?.value || rawKey).trim() || rawKey;
+  const activeChip = document.querySelector('#newSetTemplateChips .tmpl-chip.on');
+  const tmpl = activeChip?.dataset.tmpl ?? 'empty';
+
+  editSetKey = rawKey;
+  editSetLabel = label;
+
+  // update SETS in-memory so the picker & sets download includes it
+  if (!SETS.some(s => (s.key ?? '') === rawKey)) {
+    SETS.push({ key: rawKey, label });
+  } else {
+    SETS = SETS.map(s => (s.key ?? '') === rawKey ? { key: rawKey, label } : s);
+  }
+  renderSetPicker();
+
+  const baseUrl = getBaseUrl();
+  history.replaceState(null, '', `${baseUrl}?set=${encodeURIComponent(rawKey)}#edit`);
+  REQUESTED_SET_KEY = rawKey;
+  REQUESTED_SET_EXISTS = false;
+  CURRENT_SET_KEY = rawKey;
+
+  if (tmpl.startsWith('copy:')) {
+    const srcKey = tmpl.slice(5); // '' = 기본 세트, 'jychang' 등
+    const cached = ORIGINAL_MENU_JSON_BY_KEY[srcKey];
+    if (cached && cached !== '__MISSING__') {
+      editItems = JSON.parse(cached);
+    } else {
+      const url = srcKey ? `./menu.${srcKey}.json` : './menu.default.json';
+      try {
+        const data = await loadJson(url);
+        editItems = Array.isArray(data) ? JSON.parse(JSON.stringify(data)) : [];
+      } catch {
+        editItems = [];
+      }
+    }
+  } else {
+    editItems = [];
+  }
+
+  ORIGINAL_MENU_JSON_BY_KEY[editSetKey] = '__MISSING__';
+  editDirty = true;
+  const title = document.getElementById('editTitle');
+  const sub = document.getElementById('editSub');
+  if (title) title.textContent = `세트 편집: ${editSetLabel}`;
+  if (sub) sub.textContent = `menu.${editSetKey}.json 편집 → 다운로드로 반영 (GitHub에 업로드/교체)`;
+  renderEditMainView();
+}
+
+function renderEditMainView() {
+  const body = document.getElementById('editBody');
+  if (!body) return;
+
+  const fileName = editSetKey ? `menu.${editSetKey}.json` : 'menu.default.json';
+  const dirtyMark = editDirty ? ' · 변경됨' : '';
+
+  body.innerHTML = `
+    <div class="edit-row one">
+      <div class="edit-field">
+        <label>대상 파일</label>
+        <input class="edit-input" value="${escapeHtml(fileName + dirtyMark)}" readonly />
+      </div>
+    </div>
+    <div class="edit-actions">
+      <button class="edit-btn primary" type="button" onclick="openEditItemForm(null)">+ 메뉴 추가</button>
+      <button class="edit-btn" type="button" onclick="downloadChangedFiles()">필요 파일 원클릭 다운로드</button>
+      <button class="edit-btn ghost" type="button" onclick="closeEditModal()">닫기</button>
+    </div>
+    <div id="editFormSlot"></div>
+    <div class="edit-row one" style="margin-top:10px">
+      <div class="edit-field">
+        <label>GitHub 반영 경로</label>
+        <a class="edit-gh-link" href="${escapeHtml(GITHUB_DATA_PATH_URL)}" target="_blank" rel="noopener noreferrer">${escapeHtml(GITHUB_DATA_PATH_URL)}</a>
+      </div>
+    </div>
+    <div class="edit-divider"></div>
+    <div class="edit-list" id="editList"></div>
+    <div class="edit-divider"></div>
+    <div class="edit-sub">다운로드한 파일을 GitHub의 <b>eat-me/</b> 폴더에 업로드(교체)하면 반영됩니다.</div>
+  `;
+
+  renderEditList();
+}
+
+function renderEditList() {
+  const listEl = document.getElementById('editList');
+  if (!listEl) return;
+  if (!Array.isArray(editItems) || editItems.length === 0) {
+    listEl.innerHTML = `<div class="edit-sub">아직 메뉴가 없어요. “+ 메뉴 추가”로 시작하세요.</div>`;
+    return;
+  }
+  listEl.innerHTML = editItems.map((it, idx) => {
+    const cats = Array.isArray(it.category) ? it.category.join(', ') : '';
+    const fri = it.fridayOnly ? ' · 금요일전용' : '';
+    const inlineForm = (editForm && editForm.idx === idx) ? buildEditFormHtml(false) : '';
+    return `
+      <div class="edit-item">
+        <div class="edit-item-top">
+          <div style="min-width:0">
+            <div class="edit-item-name">${escapeHtml(it.name ?? '')}</div>
+            <div class="edit-item-meta">가중치 ×${escapeHtml(it.count ?? 1)} · ${escapeHtml(cats)}${fri}</div>
+          </div>
+          <div style="display:flex;gap:6px;flex-shrink:0">
+            <button class="edit-btn" type="button" onclick="openEditItemForm(${idx})">수정</button>
+            <button class="edit-btn danger" type="button" onclick="deleteEditItem(${idx})">삭제</button>
+          </div>
+        </div>
+        ${inlineForm}
+      </div>
+    `;
+  }).join('');
+}
+
+function getEditableCategoryKeys() {
+  return Object.entries(CATEGORY)
+    .filter(([k]) => k !== 'all')
+    .map(([k]) => k);
+}
+
+function openEditItemForm(idxOrNull) {
+  const idx = (typeof idxOrNull === 'number') ? idxOrNull : null;
+  const cur = (idx != null) ? (editItems[idx] ?? {}) : {};
+  const name = String(cur.name ?? '').trim();
+  const count = Number(cur.count ?? 1) || 1;
+  const fridayOnly = !!cur.fridayOnly;
+  const cats = Array.isArray(cur.category) ? cur.category.slice() : [];
+  editForm = { idx, name, count, fridayOnly, category: cats };
+  renderEditList();
+  renderAddFormSlot();
+  // 새 항목 추가 시 폼이 상단에 바로 보이도록 포커스
+  if (idx == null) {
+    setTimeout(() => document.getElementById('efName')?.focus(), 50);
+  }
+}
+
+function buildEditFormHtml(isAddForm) {
+  if (!editForm) return '';
+  const idx = editForm.idx;
+  return `
+    <div class="edit-divider"></div>
+    <div class="edit-item-name">${isAddForm ? '메뉴 추가' : '메뉴 수정'}</div>
+    <div class="edit-row">
+      <div class="edit-field">
+        <label>이름</label>
+        <input class="edit-input" id="efName" value="${escapeHtml(editForm.name ?? '')}" placeholder="예: 멘노아지" />
+      </div>
+      <div class="edit-field">
+        <label>가중치(count)</label>
+        <input class="edit-input" id="efCount" type="number" min="1" step="1" value="${escapeHtml(editForm.count ?? 1)}" />
+      </div>
+    </div>
+    <div class="edit-row one">
+      <div class="edit-field">
+        <label>옵션</label>
+        <button class="edit-btn ghost" type="button" onclick="toggleEfFridayOnly()">${editForm.fridayOnly ? '금요일전용: ON' : '금요일전용: OFF'}</button>
+      </div>
+    </div>
+    <div class="edit-field">
+      <label>카테고리 (최소 1개)</label>
+      <div class="edit-cat-chips" id="efCats">
+        ${getEditableCategoryKeys().map((k) => {
+          const v = CATEGORY[k] || {};
+          const label = (v.emoji ? (v.emoji + ' ') : '') + (v.label || k);
+          const on = editForm.category.includes(k);
+          return `<div class="edit-cat-chip ${on ? 'on' : ''}" onclick="toggleEfCat('${escapeHtml(k)}')">${escapeHtml(label)}</div>`;
+        }).join('')}
+      </div>
+    </div>
+    <div class="edit-actions">
+      <button class="edit-btn primary" type="button" onclick="saveEditItem()">저장</button>
+      <button class="edit-btn ghost" type="button" onclick="cancelEditItem()">취소</button>
+    </div>
+  `;
+}
+
+function renderAddFormSlot() {
+  const slot = document.getElementById('editFormSlot');
+  if (!slot) return;
+  if (editForm && editForm.idx == null) {
+    slot.innerHTML = `<div class="edit-item">${buildEditFormHtml(true)}</div>`;
+  } else {
+    slot.innerHTML = '';
+  }
+}
+
+function syncEditFormFromInputs() {
+  if (!editForm) return;
+  const nameEl = document.getElementById('efName');
+  const countEl = document.getElementById('efCount');
+  if (nameEl) editForm.name = String(nameEl.value ?? '').trim();
+  if (countEl) {
+    const n = Number(countEl.value ?? 1);
+    editForm.count = (Number.isFinite(n) && n > 0) ? Math.floor(n) : 1;
+  }
+}
+
+function renderEfCats() {
+  // no-op: category chips are rendered by buildEditFormHtml
+}
+
+function toggleEfCat(k) {
+  if (!editForm) return;
+  syncEditFormFromInputs();
+  const key = String(k).replaceAll('&amp;','&').replaceAll('&lt;','<').replaceAll('&gt;','>').replaceAll('&quot;','"').replaceAll('&#39;',"'");
+  if (editForm.category.includes(key)) editForm.category = editForm.category.filter(x => x !== key);
+  else editForm.category = [...editForm.category, key];
+  renderEditList();
+  renderAddFormSlot();
+}
+
+function toggleEfFridayOnly() {
+  if (!editForm) return;
+  syncEditFormFromInputs();
+  editForm.fridayOnly = !editForm.fridayOnly;
+  renderEditList();
+  renderAddFormSlot();
+}
+
+function cancelEditItem() {
+  editForm = null;
+  renderEditList();
+  renderAddFormSlot();
+}
+
+function saveEditItem() {
+  if (!editForm) return;
+  syncEditFormFromInputs();
+  const name = String(editForm.name ?? '').trim();
+  const count = Number(editForm.count ?? 1);
+  if (!name) { alert('이름을 입력해주세요.'); return; }
+  if (!Number.isFinite(count) || count < 1) { alert('가중치는 1 이상 숫자여야 해요.'); return; }
+  if (!Array.isArray(editForm.category) || editForm.category.length === 0) { alert('카테고리를 최소 1개 선택해주세요.'); return; }
+
+  const item = { name, count: Math.floor(count), category: editForm.category.slice(), fridayOnly: !!editForm.fridayOnly };
+  if (editForm.idx == null) editItems.push(item);
+  else editItems[editForm.idx] = item;
+
+  editDirty = true;
+  cancelEditItem();
+  renderEditMainView();
+}
+
+function deleteEditItem(idx) {
+  if (!confirm('삭제할까요?')) return;
+  editItems.splice(idx, 1);
+  editDirty = true;
+  renderEditMainView();
+}
+
+function downloadBlob(filename, text) {
+  const blob = new Blob([text], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+function downloadMenuJson() {
+  const filename = editSetKey ? `menu.${editSetKey}.json` : 'menu.default.json';
+  downloadBlob(filename, JSON.stringify(editItems, null, 2) + '\n');
+  editDirty = false;
+  renderEditMainView();
+}
+
+function downloadSetsJson() {
+  // ensure default entry exists, and ensure current set exists with label
+  let out = Array.isArray(SETS) ? SETS.slice() : [];
+  if (!out.some(s => (s.key ?? '') === '')) out.unshift({ key: '', label: '기본' });
+  if (editSetKey && !out.some(s => (s.key ?? '') === editSetKey)) out.push({ key: editSetKey, label: editSetLabel || editSetKey });
+  out = out.map(s => ({
+    key: (s.key ?? ''),
+    label: String((s.label ?? (s.key ?? '')) || '기본'),
+  }));
+  downloadBlob('sets.json', JSON.stringify(out, null, 2) + '\n');
+}
+
+function getSetsDownloadData() {
+  let out = Array.isArray(SETS) ? SETS.slice() : [];
+  if (!out.some(s => (s.key ?? '') === '')) out.unshift({ key: '', label: '기본' });
+  if (editSetKey && !out.some(s => (s.key ?? '') === editSetKey)) out.push({ key: editSetKey, label: editSetLabel || editSetKey });
+  return out.map(s => ({
+    key: (s.key ?? ''),
+    label: String((s.label ?? (s.key ?? '')) || '기본'),
+  }));
+}
+
+function hasMenuChangesForEditSet() {
+  const key = editSetKey ?? '';
+  const original = ORIGINAL_MENU_JSON_BY_KEY[key];
+  const now = JSON.stringify(editItems, null, 2);
+  if (original === '__MISSING__') return true;
+  if (typeof original !== 'string') return true;
+  return original !== now;
+}
+
+function downloadChangedFiles() {
+  const changed = [];
+  if (hasMenuChangesForEditSet()) {
+    const menuFilename = editSetKey ? `menu.${editSetKey}.json` : 'menu.default.json';
+    changed.push({ filename: menuFilename, text: JSON.stringify(editItems, null, 2) + '\n' });
+  }
+
+  const setsNow = JSON.stringify(getSetsDownloadData(), null, 2);
+  if (INITIAL_SETS_JSON !== setsNow) {
+    changed.push({ filename: 'sets.json', text: setsNow + '\n' });
+  }
+
+  const categoryNow = JSON.stringify(CATEGORY, null, 2);
+  if (INITIAL_CATEGORY_JSON !== categoryNow) {
+    changed.push({ filename: 'category.json', text: categoryNow + '\n' });
+  }
+
+  if (changed.length === 0) {
+    alert('다운로드할 변경 파일이 없습니다.');
+    return;
+  }
+  changed.forEach((f) => downloadBlob(f.filename, f.text));
+  editDirty = false;
+  renderEditMainView();
+}
+
+function getBaseUrl() {
+  // 쿼리/프래그먼트 제거한 기본 URL
+  const base = window.location.origin === 'null' ? window.location.pathname : (window.location.origin + window.location.pathname);
+  return base;
+}
+
+function goHome() {
+  window.location.href = getBaseUrl();
+}
+
+function goEditForSet(setKey) {
+  const key = sanitizeProfileKey(setKey) ?? '';
+  const base = getBaseUrl();
+  const query = key ? `?set=${encodeURIComponent(key)}` : '';
+  window.location.href = `${base}${query}#edit`;
+}
+
+function renderSetPicker() {
+  const btn = document.getElementById('setBtn');
+  const menuEl = document.getElementById('setMenu');
+  if (!btn || !menuEl) return;
+
+  const current = SETS.find(s => (s.key ?? '') === (CURRENT_SET_KEY ?? ''));
+  btn.textContent = current?.label ?? (CURRENT_SET_KEY ? CURRENT_SET_KEY : '기본');
+
+  menuEl.innerHTML = '';
+  SETS.forEach(({ key, label }) => {
+    const realKey = key ?? '';
+    const realLabel = (label ?? (realKey ? realKey : '기본'));
+    const showKeyBadge = realKey !== '' && realLabel !== realKey;
+    const item = document.createElement('div');
+    item.className = 'set-dd-item' + (realKey === (CURRENT_SET_KEY ?? '') ? ' active' : '');
+    item.setAttribute('role', 'menuitem');
+    item.onclick = () => {
+      closeSetDropdown();
+      onSetChange(realKey);
+    };
+    const isDefault = realKey === '';
+    item.innerHTML = `
+      <span class="set-dd-main">
+        <span class="set-dd-label">${escapeHtml(realLabel)}</span>
+        ${showKeyBadge ? `<span class="set-dd-key">${escapeHtml(realKey)}</span>` : ''}
+      </span>
+      ${isDefault ? '' : '<button class="set-dd-edit-btn" type="button">수정</button>'}
+    `;
+    if (!isDefault) {
+      const editBtn = item.querySelector('.set-dd-edit-btn');
+      if (editBtn) {
+        editBtn.onclick = (e) => {
+          e.stopPropagation();
+          closeSetDropdown();
+          goEditForSet(realKey);
+        };
+      }
+    }
+    menuEl.appendChild(item);
+  });
+
+  // 새 세트 추가 버튼
+  const divider = document.createElement('div');
+  divider.className = 'set-dd-divider';
+  menuEl.appendChild(divider);
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'set-dd-add-btn';
+  addBtn.type = 'button';
+  addBtn.textContent = '+ 새 세트 추가';
+  addBtn.onclick = () => {
+    closeSetDropdown();
+    openCreateSetModal();
+  };
+  menuEl.appendChild(addBtn);
+}
+
+function onSetChange(nextKey) {
+  const key = sanitizeProfileKey(nextKey) ?? '';
+  const base = getBaseUrl();
+  const nextUrl = key ? `${base}?set=${encodeURIComponent(key)}` : base;
+  // UX 단순화를 위해 URL만 바꾸고 새로고침 (정적 호스팅에서 가장 안정적)
+  window.location.href = nextUrl;
+}
+
+function openSetDropdown() {
+  const dd = document.getElementById('setDropdown');
+  const btn = document.getElementById('setBtn');
+  if (!dd || !btn) return;
+  dd.classList.add('open');
+  btn.setAttribute('aria-expanded', 'true');
+  setMenuOpen = true;
+}
+
+function closeSetDropdown() {
+  const dd = document.getElementById('setDropdown');
+  const btn = document.getElementById('setBtn');
+  if (!dd || !btn) return;
+  dd.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
+  setMenuOpen = false;
+}
+
+function toggleSetDropdown() {
+  setMenuOpen ? closeSetDropdown() : openSetDropdown();
+}
+
+document.addEventListener('click', (e) => {
+  if (!setMenuOpen) return;
+  const dd = document.getElementById('setDropdown');
+  if (!dd) return;
+  if (dd.contains(e.target)) return;
+  closeSetDropdown();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!setMenuOpen) return;
+  if (e.key === 'Escape') closeSetDropdown();
+});
 
 /* ── 카테고리 탭 ────────────────────────────────────────────────── */
 function buildCatTabs() {
