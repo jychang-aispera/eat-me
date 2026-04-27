@@ -249,5 +249,16 @@
       "noodle"
     ],
     "fridayOnly": false
+  },
+  {
+    "name": "장가",
+    "count": 1,
+    "category": [
+      "nocoupon",
+      "chinese",
+      "noodle",
+      "soup"
+    ],
+    "fridayOnly": false
   }
 ]
