@@ -1,7 +1,7 @@
 [
   {
     "name": "보배반점",
-    "count": 7,
+    "count": 5,
     "category": [
       "chinese",
       "soup"
@@ -10,7 +10,7 @@
   },
   {
     "name": "효자동목고기",
-    "count": 7,
+    "count": 5,
     "category": [
       "korean"
     ],
@@ -18,7 +18,7 @@
   },
   {
     "name": "육전국밥",
-    "count": 7,
+    "count": 5,
     "category": [
       "soup",
       "korean"
@@ -55,7 +55,7 @@
   },
   {
     "name": "얌샘김밥",
-    "count": 5,
+    "count": 3,
     "category": [
       "bunsik"
     ],
@@ -63,7 +63,7 @@
   },
   {
     "name": "대낚식당",
-    "count": 2,
+    "count": 3,
     "category": [
       "korean"
     ],
@@ -88,7 +88,7 @@
   },
   {
     "name": "란칼국수",
-    "count": 3,
+    "count": 5,
     "category": [
       "soup",
       "noodle",
@@ -98,7 +98,7 @@
   },
   {
     "name": "서울왕돈까스",
-    "count": 3,
+    "count": 2,
     "category": [
       "western"
     ],
@@ -106,7 +106,7 @@
   },
   {
     "name": "화화돈",
-    "count": 3,
+    "count": 5,
     "category": [
       "japanese"
     ],
@@ -146,15 +146,6 @@
     "fridayOnly": false
   },
   {
-    "name": "LeFreak",
-    "count": 1,
-    "category": [
-      "western",
-      "nocoupon"
-    ],
-    "fridayOnly": false
-  },
-  {
     "name": "일상화식",
     "count": 1,
     "category": [
@@ -164,7 +155,7 @@
   },
   {
     "name": "몽땅생고기",
-    "count": 7,
+    "count": 5,
     "category": [
       "korean"
     ],
@@ -181,18 +172,10 @@
   },
   {
     "name": "성수전",
-    "count": 3,
+    "count": 5,
     "category": [
       "soup",
       "korean"
-    ],
-    "fridayOnly": false
-  },
-  {
-    "name": "아비꼬",
-    "count": 1,
-    "category": [
-      "japanese"
     ],
     "fridayOnly": false
   },
