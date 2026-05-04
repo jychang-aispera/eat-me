@@ -243,5 +243,14 @@
       "soup"
     ],
     "fridayOnly": false
+  },
+  {
+    "name": "도담순대국",
+    "count": 1,
+    "category": [
+      "korean",
+      "soup"
+    ],
+    "fridayOnly": false
   }
 ]
