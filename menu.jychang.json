@@ -252,5 +252,26 @@
       "soup"
     ],
     "fridayOnly": false
+  },
+  {
+    "name": "담미온",
+    "count": 3,
+    "category": [
+      "korean",
+      "soup"
+    ],
+    "fridayOnly": true,
+    "noCoupon": false
+  },
+  {
+    "name": "칼",
+    "count": 3,
+    "category": [
+      "korean",
+      "soup",
+      "noodle"
+    ],
+    "fridayOnly": true,
+    "noCoupon": false
   }
 ]
