@@ -237,12 +237,12 @@
     "name": "장가",
     "count": 1,
     "category": [
-      "nocoupon",
       "chinese",
       "noodle",
       "soup"
     ],
-    "fridayOnly": false
+    "fridayOnly": false,
+    "noCoupon": true
   },
   {
     "name": "도담순대국",

@@ -1321,13 +1321,14 @@ function renderEditList() {
   listEl.innerHTML = editItems.map((it, idx) => {
     const cats = Array.isArray(it.category) ? it.category.join(', ') : '';
     const fri = it.fridayOnly ? ' · 금요일전용' : '';
+    const noc = it.noCoupon ? ' · 식권대장 안됨' : '';
     const inlineForm = (editForm && editForm.idx === idx) ? buildEditFormHtml(false) : '';
     return `
       <div class="edit-item">
         <div class="edit-item-top">
           <div style="min-width:0">
             <div class="edit-item-name">${escapeHtml(it.name ?? '')}</div>
-            <div class="edit-item-meta">가중치 ×${escapeHtml(it.count ?? 1)} · ${escapeHtml(cats)}${fri}</div>
+            <div class="edit-item-meta">가중치 ×${escapeHtml(it.count ?? 1)} · ${escapeHtml(cats)}${fri}${noc}</div>
           </div>
           <div style="display:flex;gap:6px;flex-shrink:0">
             <button class="edit-btn" type="button" onclick="openEditItemForm(${idx})">수정</button>
@@ -1342,7 +1343,7 @@ function renderEditList() {
 
 function getEditableCategoryKeys() {
   return Object.entries(CATEGORY)
-    .filter(([k]) => k !== 'all')
+    .filter(([k]) => k !== 'all' && k !== 'friday' && k !== 'nocoupon')
     .map(([k]) => k);
 }
 
@@ -1352,8 +1353,9 @@ function openEditItemForm(idxOrNull) {
   const name = String(cur.name ?? '').trim();
   const count = Number(cur.count ?? 1) || 1;
   const fridayOnly = !!cur.fridayOnly;
+  const noCoupon = !!cur.noCoupon;
   const cats = Array.isArray(cur.category) ? cur.category.slice() : [];
-  editForm = { idx, name, count, fridayOnly, category: cats };
+  editForm = { idx, name, count, fridayOnly, noCoupon, category: cats };
   renderEditList();
   renderAddFormSlot();
   // 새 항목 추가 시 폼이 상단에 바로 보이도록 포커스
@@ -1381,7 +1383,10 @@ function buildEditFormHtml(isAddForm) {
     <div class="edit-row one">
       <div class="edit-field">
         <label>옵션</label>
-        <button class="edit-btn ghost" type="button" onclick="toggleEfFridayOnly()">${editForm.fridayOnly ? '금요일전용: ON' : '금요일전용: OFF'}</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="edit-btn ghost" type="button" onclick="toggleEfFridayOnly()">${editForm.fridayOnly ? '금요일전용: ON' : '금요일전용: OFF'}</button>
+          <button class="edit-btn ghost" type="button" onclick="toggleEfNoCoupon()">${editForm.noCoupon ? '식권대장 안됨: ON' : '식권대장 안됨: OFF'}</button>
+        </div>
       </div>
     </div>
     <div class="edit-field">
@@ -1445,6 +1450,14 @@ function toggleEfFridayOnly() {
   renderAddFormSlot();
 }
 
+function toggleEfNoCoupon() {
+  if (!editForm) return;
+  syncEditFormFromInputs();
+  editForm.noCoupon = !editForm.noCoupon;
+  renderEditList();
+  renderAddFormSlot();
+}
+
 function cancelEditItem() {
   editForm = null;
   renderEditList();
@@ -1460,7 +1473,7 @@ function saveEditItem() {
   if (!Number.isFinite(count) || count < 1) { alert('가중치는 1 이상 숫자여야 해요.'); return; }
   if (!Array.isArray(editForm.category) || editForm.category.length === 0) { alert('카테고리를 최소 1개 선택해주세요.'); return; }
 
-  const item = { name, count: Math.floor(count), category: editForm.category.slice(), fridayOnly: !!editForm.fridayOnly };
+  const item = { name, count: Math.floor(count), category: editForm.category.slice(), fridayOnly: !!editForm.fridayOnly, noCoupon: !!editForm.noCoupon };
   if (editForm.idx == null) editItems.push(item);
   else editItems[editForm.idx] = item;
 
@@ -1711,8 +1724,7 @@ function renderGrid() {
   visible.forEach(m => {
     const realIdx = menu.indexOf(m);
     const chip = document.createElement('div');
-    // nocoupon 은 탭 카테고리가 아니므로 도트에서는 보여줌
-    const visibleCats = m.category; // 모든 category 도트 표시 (nocoupon 포함)
+    const visibleCats = m.category;
     chip.className = 'menu-chip'
       + (m.fridayOnly ? ' friday-only' : '')
       + (pickedIdx === realIdx ? ' active' : '')
@@ -1783,12 +1795,10 @@ function pickMenu() {
     emojiEl.textContent = CATEGORY[primaryCat]?.emoji || '🍽️';
     nameEl.textContent  = picked.name;
 
-    // 카테고리 뱃지 (tab:false 인 nocoupon 제외, 별도 경고로 표시)
     const catBadges = picked.category
-      .filter(c => CATEGORY[c]?.tab !== false)
       .map(c => `<span class="badge${picked.fridayOnly ? ' friday-badge' : ''}">${CATEGORY[c]?.label||c}</span>`)
       .join('');
-    const noCouponWarn = picked.category.includes('nocoupon')
+    const noCouponWarn = picked.noCoupon
       ? `<span class="nocoupon-badge">🚫 식권대장 안됨</span>` : '';
     metaEl.innerHTML = `<div class="cat-badges">${catBadges}</div>${noCouponWarn}<span>가중치 ×${picked.count} / 전체 ${total}표</span>`;
 
