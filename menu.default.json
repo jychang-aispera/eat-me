@@ -13,7 +13,6 @@
   { "name": "화화돈", "count": 1, "category": ["japanese"], "fridayOnly": false },
   { "name": "더타코부스", "count": 1, "category": ["western"], "fridayOnly": false },
   { "name": "탐광", "count": 1, "category": ["japanese"], "fridayOnly": false },
-  { "name": "아비꼬", "count": 1, "category": ["japanese"], "fridayOnly": false },
   { "name": "마시쏘부대찌개", "count": 1, "category": ["korean", "soup"], "fridayOnly": false },
   { "name": "신선식탁", "count": 1, "category": ["western", "light"], "fridayOnly": false },
   { "name": "프로티너", "count": 1, "category": ["western", "light"], "fridayOnly": false },
