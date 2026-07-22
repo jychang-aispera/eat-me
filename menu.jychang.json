@@ -45,13 +45,14 @@
   },
   {
     "name": "멘노아지",
-    "count": 5,
+    "count": 3,
     "category": [
       "soup",
       "noodle",
       "japanese"
     ],
-    "fridayOnly": false
+    "fridayOnly": false,
+    "noCoupon": false
   },
   {
     "name": "얌샘김밥",
@@ -224,14 +225,14 @@
     "fridayOnly": true
   },
   {
-    "name": "바드레",
+    "name": "에머이",
     "count": 1,
     "category": [
-      "korean",
       "soup",
       "noodle"
     ],
-    "fridayOnly": false
+    "fridayOnly": false,
+    "noCoupon": false
   },
   {
     "name": "장가",
@@ -273,5 +274,15 @@
     ],
     "fridayOnly": true,
     "noCoupon": false
+  },
+  {
+    "name": "빅쭌부대찌개",
+    "count": 1,
+    "category": [
+      "korean",
+      "soup"
+    ],
+    "fridayOnly": false,
+    "noCoupon": true
   }
 ]
